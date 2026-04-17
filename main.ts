@@ -163,15 +163,3 @@ class MenuInstance {
         this.openState = false;
     }
 }
-
-game.consoleOverlay.setVisible(true, 1);
-let instance = new MenuInstance();
-
-let entryTest = instance.createEntry("entryTest", function () {
-
-});
-let entryTest2 = instance.createEntry("entryTest2", function () {
-    
-});
-
-instance.render();
