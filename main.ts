@@ -117,6 +117,7 @@ class MenuInstance {
 
             elements.push(text);
             elementsAsEntries.push(element);
+            this.activeSprites.push(text);
         }
 
         let cursor = sprites.create(img`
@@ -127,51 +128,62 @@ class MenuInstance {
         `, MenuElement);
         let cursorPosition = 0;
 
+        this.activeSprites.push(cursor);
+
         forever(function ctronls() {
-            if (this.openState) {
+            if (this.openState == true) {
                 let l = elements.length - 1;
 
                 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
-                    if (cursorPosition != l) {
-                        cursorPosition++;
+                    if (this.openState == true) {
+                        if (cursorPosition != l) {
+                            cursorPosition++;
+                        }
                     }
                 });
 
                 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
-                    if (cursorPosition != 0) {
-                        cursorPosition--;
+                    if (this.openState == true) {
+                        if (cursorPosition != 0) {
+                            cursorPosition--;
+                        }
                     }
                 });
 
                 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-                    let entry: CatalogEntry = elementsAsEntries.get(cursorPosition);
-                    console.log(entry.name);
+                    if (this.openState == true) {
+                        let entry: CatalogEntry = elementsAsEntries.get(cursorPosition);
+                        console.log(entry.name);
 
-                    entry.func();
-                    this.close();
+                        let func = entry.func();
+
+                        func();
+                        this.close();
+                    }
                 });
             }
         });
 
         forever(function () {
-            if (this.openState) {
+            if (this.openState == true) {
                 cursor.setPosition(elements.get(cursorPosition).x - 30 - elements.get(cursorPosition).text.length, elements.get(cursorPosition).y);
             }
         });
-
-
     }
 
     close() {
-        for (let el of sprites.allOfKind(SpriteKind.Text)) {
+        for (let el of this.activeSprites) {
             sprites.destroy(el);
         }
+        this.openState = false;
     }
 }
 
 game.consoleOverlay.setVisible(true, 4);
 let instance = new MenuInstance();
-function empty() { }
+function empty() {
+    scene.setBackgroundColor(randint(0, 15));
+}
 
 let entryTest = instance.createEntry("entryTest", empty);
 let entryTest2 = instance.createEntry("entryTest2", empty);
