@@ -40,21 +40,10 @@ class MenuInstance {
         this._openState = false;
     }
 
-    private get entries(): CatalogEntry[] {
-        return this._entries;
-    }
-
-    private get activeSprites(): Sprite[] {
-        return this._activeSprites;
-    }
-
-    get openState(): boolean {
-        return this._openState;
-    }
-
-    set openState(bl: boolean) {
-        this._openState = bl;
-    }
+    private get entries(): CatalogEntry[] { return this._entries; }
+    private get activeSprites(): Sprite[] { return this._activeSprites; }
+    private get openState(): boolean { return this._openState; }
+    private set openState(bl: boolean) { this._openState = bl; }
 
     createEntry(name: string, func: Function): CatalogEntry {
         const generatedVariable = new CatalogEntry(name, func);
@@ -67,10 +56,6 @@ class MenuInstance {
         entry.animSpeed = animSpeed;
         entry.icon = icon;
     }
-
-    // editEntryTextBorder(entry: CatalogEntry, width: number, color: number, padding: number) {
-
-    // }
 
     private applyCosmetics(entry: CatalogEntry, correspondingSprite: TextSprite) {
         let anim = entry.anim;
@@ -179,15 +164,14 @@ class MenuInstance {
     }
 }
 
-game.consoleOverlay.setVisible(true, 4);
+game.consoleOverlay.setVisible(true, 1);
 let instance = new MenuInstance();
-function empty() {
-    scene.setBackgroundColor(randint(0, 15));
-}
 
-let entryTest = instance.createEntry("entryTest", empty);
-let entryTest2 = instance.createEntry("entryTest2", empty);
+let entryTest = instance.createEntry("entryTest", function () {
 
-
+});
+let entryTest2 = instance.createEntry("entryTest2", function () {
+    
+});
 
 instance.render();
